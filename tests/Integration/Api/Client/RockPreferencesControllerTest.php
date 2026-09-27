@@ -8,6 +8,26 @@ use Illuminate\Support\Facades\Schema;
 
 class RockPreferencesControllerTest extends ClientApiIntegrationTestCase
 {
+    public function testUngroupedFavoritesAndEmptyPreferencesCanBeSaved(): void
+    {
+        $user = User::factory()->create();
+        foreach (['', null] as $group) {
+            $this->actingAs($user)
+                ->putJson('/api/client/account/rock', [
+                    'server_preferences' => ['server-id' => ['favorite' => true, 'group' => $group]],
+                ])
+                ->assertOk()
+                ->assertJsonPath('serverPreferences.server-id.group', '')
+                ->assertJsonPath('serverPreferences.server-id.favorite', true);
+        }
+        $this->actingAs($user)
+            ->putJson('/api/client/account/rock', ['server_preferences' => []])
+            ->assertOk();
+        $stored = DB::table('rock_user_preferences')->where('user_id', $user->id)->value('server_preferences');
+        $this->assertSame([], json_decode($stored, true));
+        $this->actingAs($user)->putJson('/api/client/account/rock', [])->assertStatus(422);
+    }
+
     public function testServerPreferencesArePersisted(): void
     {
         $user = User::factory()->create();

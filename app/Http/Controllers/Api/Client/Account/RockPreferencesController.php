@@ -60,10 +60,18 @@ class RockPreferencesController extends ClientApiController
     public function update(Request $request): JsonResponse
     {
         $data = $request->validate([
-            'server_preferences' => ['required', 'array'],
+            'server_preferences' => ['present', 'array'],
+            'server_preferences.*' => ['array'],
             'server_preferences.*.favorite' => ['sometimes', 'boolean'],
-            'server_preferences.*.group' => ['sometimes', 'string', 'max:32'],
+            'server_preferences.*.group' => ['sometimes', 'nullable', 'string', 'max:32'],
         ]);
+
+        // Laravel converts empty input strings to null before validation.
+        // Keep the client contract stable for ungrouped and favorite-only entries.
+        $data['server_preferences'] = array_map(fn (array $preference) => [
+            'favorite' => (bool) ($preference['favorite'] ?? false),
+            'group' => $preference['group'] ?? '',
+        ], $data['server_preferences']);
 
         try {
             if (!Schema::hasTable('rock_user_preferences')) {
