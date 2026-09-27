@@ -105,7 +105,8 @@ describe('update-upstream-metadata', () => {
         const root = createFixture();
         fixtures.push(root);
         const dockerReadme = read(root, '.github/docker/README.md');
-        fs.writeFileSync(path.join(root, '.github/docker/README.md'), dockerReadme.replace('| `2.1`', '| `2.0`'));
+        const minor = JSON.parse(read(root, 'package.json')).version.split('.').slice(0, 2).join('.');
+        fs.writeFileSync(path.join(root, '.github/docker/README.md'), dockerReadme.replace(`| \`${minor}\``, '| `0.0`'));
         const result = spawnSync(
             process.execPath,
             [path.join(root, 'scripts/update-upstream-metadata.js'), '--check'],
