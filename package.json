@@ -1,6 +1,6 @@
 {
     "name": "rockdactyl",
-    "version": "2.1.1",
+    "version": "3.0.0",
     "private": true,
     "description": "Rockdactyl, a polished and responsive UI mod for Pterodactyl Panel 1.15.1.",
     "author": {

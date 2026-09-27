@@ -43,7 +43,7 @@ services:
         image: redis:alpine
         restart: always
     panel:
-        image: ghcr.io/devrock07/rock-theme:2.1.1
+        image: ghcr.io/devrock07/rock-theme:3.0.0
         restart: always
         ports:
             - '80:80'

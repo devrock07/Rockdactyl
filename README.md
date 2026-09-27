@@ -15,7 +15,7 @@ remain compatible.
 
 <img src="./website/public/screenshots/dashboard-crimson.webp" alt="The real Rockdactyl dashboard" width="100%">
 
-**Rockdactyl `v2.1.1` · Pterodactyl Panel `v1.15.1`**
+**Rockdactyl `v3.0.0` · Pterodactyl Panel `v1.15.1`**
 
 [Website](https://devrock07.github.io/Rockdactyl/) · [Documentation](./docs/README.md) · [Install](./docs/INSTALLATION.md) · [Releases](https://github.com/devrock07/Rockdactyl/releases)
 
@@ -41,7 +41,7 @@ The manager verifies checksums and archive structure before changing the panel. 
 
 Rockdactyl modernizes the client, server, login, status, and administration interfaces while preserving the familiar Pterodactyl workflow. It is a complete panel distribution—not a CSS patch or runtime plugin.
 
-Rockdactyl `v2.1.1` is based on and supports [Pterodactyl Panel `v1.15.1`](https://github.com/pterodactyl/panel/releases/tag/v1.15.1).
+Rockdactyl `v3.0.0` is based on and supports [Pterodactyl Panel `v1.15.1`](https://github.com/pterodactyl/panel/releases/tag/v1.15.1).
 
 | Area | Included |
 | --- | --- |
@@ -58,7 +58,7 @@ Rockdactyl `v2.1.1` is based on and supports [Pterodactyl Panel `v1.15.1`](https
 
 | Component | Supported |
 | --- | --- |
-| Rockdactyl | `2.1.1` |
+| Rockdactyl | `3.0.0` |
 | Pterodactyl Panel | `1.15.1` |
 | PHP | `8.2` and `8.3` |
 | Source builds | Node.js `22+` and Yarn Classic `1.x` |

@@ -1,6 +1,6 @@
 # Rockdactyl documentation
 
-This documentation covers Rockdactyl `v2.1.1`, based on Pterodactyl Panel
+This documentation covers Rockdactyl `v3.0.0`, based on Pterodactyl Panel
 `v1.15.1`.
 
 <details>

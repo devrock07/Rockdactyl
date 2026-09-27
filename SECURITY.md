@@ -8,7 +8,7 @@ Pterodactyl bases may be asked to upgrade before a report is investigated.
 
 | Rockdactyl           | Pterodactyl base | Security support |
 | -------------------- | ---------------- | ---------------- |
-| Latest `2.x` release | `1.15.1`         | Supported        |
+| Latest `3.x` release | `1.15.1`         | Supported        |
 | Older releases       | Any              | Upgrade required |
 
 Rockdactyl maintains the interface and branding layer. Vulnerabilities in the

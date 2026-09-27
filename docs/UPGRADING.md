@@ -5,7 +5,7 @@ both before every update.
 
 | Installed component | Current supported release |
 | ------------------- | ------------------------- |
-| Rockdactyl          | `v2.1.1`                  |
+| Rockdactyl          | `v3.0.0`                  |
 | Pterodactyl base    | `v1.15.1`                 |
 
 The supported Pterodactyl base is recorded in `.rock/upstream-version` and the
@@ -167,7 +167,7 @@ versioned/`latest` multi-architecture container build.
 Verify a pinned release before extraction:
 
 ```bash
-release=v2.1.1
+release=v3.0.0
 curl -fL -O "https://github.com/devrock07/Rockdactyl/releases/download/$release/panel.tar.gz"
 curl -fL -O "https://github.com/devrock07/Rockdactyl/releases/download/$release/panel.tar.gz.sha256"
 sha256sum --check panel.tar.gz.sha256

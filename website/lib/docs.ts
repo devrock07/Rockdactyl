@@ -46,7 +46,7 @@ export type DocNavGroup = {
 };
 
 export const repositoryUrl = 'https://github.com/devrock07/Rockdactyl';
-export const releaseUrl = `${repositoryUrl}/releases/tag/v2.1.1`;
+export const releaseUrl = `${repositoryUrl}/releases/tag/v3.0.0`;
 
 export const docsNavigation: readonly DocNavGroup[] = [
     {
@@ -142,7 +142,7 @@ const overview: DocPage = {
             id: 'compatibility',
             title: 'Compatibility contract',
             body: [
-                'Rockdactyl v2.1.1 is built on Pterodactyl Panel v1.15.1. Upgrade through a compatible Rockdactyl release so the theme, database migrations, and panel source move together.',
+                'Rockdactyl v3.0.0 is built on Pterodactyl Panel v1.15.1. Upgrade through a compatible Rockdactyl release so the theme, database migrations, and panel source move together.',
             ],
             callout: {
                 title: 'Do not run the vanilla updater over a themed install',
@@ -235,7 +235,7 @@ const installation: DocPage = {
             ],
             callout: {
                 title: 'Release artifacts',
-                body: 'The v2.1.1 release publishes panel.tar.gz and panel.tar.gz.sha256. The manager verifies both before changing the panel.',
+                body: 'The v3.0.0 release publishes panel.tar.gz and panel.tar.gz.sha256. The manager verifies both before changing the panel.',
                 tone: 'success',
             },
         },

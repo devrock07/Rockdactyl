@@ -101,7 +101,7 @@ const checkReleaseMetadata = (root) => {
         ],
         ['docs/UPGRADING.md', /\| Rockdactyl\s*\| `v([^`]+)`/, metadata.themeVersion, 'upgrade table'],
         ['docs/UPGRADING.md', /\| Pterodactyl base\s*\| `v([^`]+)`/, metadata.upstreamVersion, 'upgrade table'],
-        ['SECURITY.md', /\| Latest `2\.x` release \| `([^`]+)`/, metadata.upstreamVersion, 'support table'],
+        ['SECURITY.md', /\| Latest `\d+\.x` release \| `([^`]+)`/, metadata.upstreamVersion, 'support table'],
         [
             '.github/ISSUE_TEMPLATE/1-bug-report.yml',
             /placeholder:\s+v([^\s]+)/,

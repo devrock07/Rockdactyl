@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description: 'A responsive interface mod for Pterodactyl Panel.',
 };
 
-const releaseVersion = '2.1.1';
+const releaseVersion = '3.0.0';
 
 const installCommand = `curl -fsSL https://raw.githubusercontent.com/devrock07/Rockdactyl/main/install.sh \\
   -o /tmp/rockdactyl-install.sh

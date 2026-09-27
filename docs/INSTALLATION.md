@@ -1,6 +1,6 @@
 # Installation
 
-Rockdactyl `v2.1.1` is a complete Pterodactyl Panel distribution based on
+Rockdactyl `v3.0.0` is a complete Pterodactyl Panel distribution based on
 Pterodactyl `v1.15.1`. Install it over a working panel on that base, or use the
 manager for a verified forward upgrade from an older `1.x` base. It is not a
 plugin that can be added to an arbitrary Pterodactyl release.
