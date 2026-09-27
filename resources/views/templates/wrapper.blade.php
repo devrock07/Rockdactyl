@@ -35,7 +35,7 @@
         @yield('assets')
 
         @include('layouts.scripts')
-        <link rel="stylesheet" href="/themes/pterodactyl/css/rock-matte.css?v=20260927-1">
+        <link rel="stylesheet" href="/themes/pterodactyl/css/rock-matte.css?v=20260927-2">
     </head>
     <body class="{{ $css['body'] ?? 'bg-neutral-50' }}">
         @section('content')

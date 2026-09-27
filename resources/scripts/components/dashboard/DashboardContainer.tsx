@@ -417,6 +417,11 @@ export default () => {
     return (
         <PageContentBlock className='content-dashboard' title={'Dashboard'} showFlashKey={'dashboard'}>
             <DashboardHero>
+                <div className={'workspace-insignia'} aria-hidden={'true'}>
+                    <span />
+                    <span />
+                    <span />
+                </div>
                 {!!branding.dashboardImage && (
                     <div className={'hero-art'} style={{ backgroundImage: `url("${branding.dashboardImage}")` }} />
                 )}

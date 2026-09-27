@@ -477,11 +477,13 @@ body .rock-topbar::after {
     display: none;
 }
 body .rock-dashboard-heading {
-    margin: 0 0 28px;
-    padding: 36px 0 24px;
-    background: none;
+    margin: 12px 0 28px;
+    padding: 32px;
+    background: #191b1f;
     box-shadow: none;
-    border-bottom: 1px solid #2c3036;
+    border: 1px solid #343941;
+    border-radius: 16px;
+    border-left: 3px solid var(--shell-accent);
 }
 body .rock-dashboard-heading::before,
 body .rock-dashboard-heading .hero-content::before {
@@ -497,7 +499,7 @@ body .rock-dashboard-heading .eyebrow {
     margin-bottom: 10px;
 }
 body .rock-dashboard-heading h1 {
-    font-size: clamp(26px, 3vw, 38px);
+    font-size: clamp(28px, 3vw, 42px);
     line-height: 1.15;
     letter-spacing: -0.035em;
     max-width: 650px;
@@ -513,9 +515,9 @@ body .rock-dashboard-heading .hero-stats {
     gap: 20px;
 }
 body .rock-dashboard-heading .hero-stat {
-    background: none;
-    border: 0;
-    padding: 0;
+    background: #22262c;
+    border: 1px solid #343941;
+    padding: 6px 10px;
     font-family: inherit;
     font-size: 12px;
     text-transform: none;
@@ -637,7 +639,7 @@ body .user-menu .navigation-icon {
 }
 @media (max-width: 640px) {
     body .rock-dashboard-heading {
-        padding-top: 24px;
+        padding: 24px 20px;
     }
     body .rock-dashboard-heading .hero-stats {
         gap: 12px;
@@ -654,5 +656,170 @@ body .user-menu .navigation-icon {
     }
     body .rock-server-card .metrics > div + div {
         padding-left: 10px;
+    }
+}
+
+/* Studio finish: tactile matte panels with deliberate, theme-aware accents. */
+.workspace-insignia {
+    position: absolute;
+    right: 48px;
+    top: 50%;
+    width: 132px;
+    height: 132px;
+    transform: translateY(-50%) rotate(-12deg);
+    pointer-events: none;
+    color: var(--shell-accent);
+    opacity: 0.65;
+}
+.workspace-insignia span {
+    position: absolute;
+    inset: 0;
+    border: 1px solid currentColor;
+    border-radius: 24px;
+}
+.workspace-insignia span:nth-child(2) {
+    inset: 22px;
+    border-width: 2px;
+}
+.workspace-insignia span:nth-child(3) {
+    inset: 44px;
+    background: var(--shell-accent-soft);
+}
+body .rock-dashboard-heading .hero-content {
+    max-width: calc(100% - 180px);
+}
+body .rock-dashboard-heading .eyebrow .rb-shiny-text {
+    color: var(--shell-accent-bright);
+}
+body .rock-server-card {
+    border-radius: 14px !important;
+    transition: border-color 160ms ease, background-color 160ms ease;
+}
+body .rock-server-card:hover {
+    border-color: var(--shell-accent) !important;
+}
+.server-card-identity {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 12px;
+}
+.server-emblem {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    background: var(--shell-accent-soft);
+    color: var(--shell-accent-bright);
+    border: 1px solid rgba(var(--shell-accent-rgb), 0.25);
+}
+.server-reference {
+    font: 11px ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: #929ba9;
+    letter-spacing: 0.05em;
+}
+body .rock-server-card .server-title h3 {
+    font-weight: 650;
+    letter-spacing: -0.025em;
+}
+body .rock-server-card .status {
+    border: 1px solid #343941;
+    border-radius: 999px;
+}
+body .rock-server-card .metric-value {
+    font-size: 17px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.025em;
+}
+body .rock-server-card .rail {
+    height: 3px;
+    border-radius: 3px;
+}
+body .sidebar a.active,
+body .sidebar-menu > li.active > a {
+    background: var(--shell-accent-soft, var(--admin-accent-soft)) !important;
+    border-color: rgba(var(--shell-accent-rgb, var(--admin-accent-rgb)), 0.28) !important;
+}
+body .sidebar a.active .icon {
+    background: transparent;
+    box-shadow: none;
+}
+body .admin-metric {
+    position: relative;
+    padding: 24px;
+    border-radius: 12px;
+    transition: border-color 160ms ease;
+}
+body .admin-metric > svg {
+    box-sizing: content-box;
+    width: 22px;
+    height: 22px;
+    padding: 12px;
+    border-radius: 12px;
+    color: var(--admin-accent-bright);
+    background: var(--admin-accent-soft);
+}
+body .admin-metric strong {
+    font-size: 32px;
+    letter-spacing: -0.045em;
+}
+body .admin-metric:hover {
+    border-color: var(--admin-accent);
+}
+body .admin-action-row {
+    border-radius: 8px;
+    transition: background-color 160ms ease;
+}
+body .admin-action-row:hover {
+    background: #22262c;
+}
+body .admin-action-row > svg {
+    color: var(--admin-accent-bright);
+}
+body .admin-workspace > .box {
+    border-radius: 12px !important;
+}
+body .content-header h1 {
+    font-size: 32px;
+    letter-spacing: -0.035em;
+}
+body .admin-kicker {
+    color: var(--admin-accent-bright);
+}
+body a:focus-visible,
+body button:focus-visible {
+    outline: 2px solid var(--shell-accent, var(--admin-accent));
+    outline-offset: 3px;
+}
+@media (max-width: 1100px) {
+    .workspace-insignia {
+        right: 28px;
+        width: 100px;
+        height: 100px;
+    }
+    body .rock-dashboard-heading .hero-content {
+        max-width: calc(100% - 125px);
+    }
+}
+@media (max-width: 640px) {
+    .workspace-insignia {
+        display: none;
+    }
+    body .rock-dashboard-heading .hero-content {
+        max-width: 100%;
+    }
+    body .admin-metric {
+        padding: 16px 12px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    body .rock-server-card,
+    body .admin-metric,
+    body .admin-action-row {
+        transition: none;
     }
 }

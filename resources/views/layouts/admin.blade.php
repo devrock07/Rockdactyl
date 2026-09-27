@@ -50,7 +50,7 @@
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
             <![endif]-->
         @show
-        <link rel="stylesheet" href="/themes/pterodactyl/css/rock-matte.css?v=20260927-1">
+        <link rel="stylesheet" href="/themes/pterodactyl/css/rock-matte.css?v=20260927-2">
     </head>
     <body class="hold-transition skin-blue fixed sidebar-mini">
         <div class="wrapper">

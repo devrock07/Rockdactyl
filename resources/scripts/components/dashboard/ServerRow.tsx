@@ -6,6 +6,7 @@ import { Server } from '@/api/server/getServer';
 import getServerResourceUsage, { ServerStats } from '@/api/server/getServerResourceUsage';
 import { bytesToString, ip, mbToBytes } from '@/lib/formatters';
 import Spinner from '@/components/elements/Spinner';
+import NavigationIcon from '@/components/elements/NavigationIcon';
 import styled from 'styled-components/macro';
 import { MagicBentoCard } from '@/components/elements/reactbits/MagicBento';
 import { pushRockNotification } from '@/components/notifications/rockNotifications';
@@ -373,6 +374,12 @@ export default ({ server, className, favorite = false, onToggleFavorite, onOpenQ
             style={{ '--status-color': color } as React.CSSProperties}
         >
             <div className={'card-link'}>
+                <div className={'server-card-identity'} aria-hidden={'true'}>
+                    <span className={'server-emblem'}>
+                        <NavigationIcon name={'servers'} />
+                    </span>
+                    <span className={'server-reference'}>{server.id}</span>
+                </div>
                 <div className={'flex min-w-0 items-start justify-between gap-4'}>
                     <div className={'min-w-0'}>
                         <Link className={'server-title'} to={`/server/${server.id}`}>
