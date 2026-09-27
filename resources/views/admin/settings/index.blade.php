@@ -87,7 +87,7 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label class="control-label">Preset</label>
+                                <label class="control-label" for="theme-preset">Preset</label>
                                 @php($themePreset = old('branding:theme_preset', config('branding.theme_preset', 'makima')))
                                 @php($themePreset = in_array($themePreset, ['makima', 'blue'], true) ? $themePreset : 'makima')
                                 <select class="form-control" id="theme-preset" name="branding:theme_preset">
@@ -95,21 +95,21 @@
                                     <option value="blue" @if($themePreset === 'blue') selected @endif>Midnight Blue</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-3" hidden>
                                 <label class="control-label">Glass</label>
                                 <div class="input-group">
                                     <input type="number" class="form-control" id="theme-glass" name="branding:glass_strength" value="{{ old('branding:glass_strength', config('branding.glass_strength', 18)) }}" min="0" max="30" />
                                     <span class="input-group-addon">px</span>
                                 </div>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-3" hidden>
                                 <label class="control-label">Radius</label>
                                 <div class="input-group">
                                     <input type="number" class="form-control" id="theme-radius" name="branding:card_radius" value="{{ old('branding:card_radius', config('branding.card_radius', 12)) }}" min="6" max="20" />
                                     <span class="input-group-addon">px</span>
                                 </div>
                             </div>
-                            <div class="form-group col-md-2">
+                            <div class="form-group col-md-2" hidden>
                                 <label class="control-label">Motion</label>
                                 @php($motionEnabled = (int) old('branding:motion_enabled', config('branding.motion_enabled', true)))
                                 <select class="form-control" id="theme-motion" name="branding:motion_enabled">
@@ -118,10 +118,11 @@
                                 </select>
                             </div>
                         </div>
-                        <div id="theme-preview" style="padding: 22px; border: 1px solid rgba(255,255,255,.12); border-radius: 12px; background: linear-gradient(135deg, rgba(201,79,89,.14), #0d0d0f); box-shadow: 0 18px 50px rgba(0,0,0,.24);">
+                        <p class="help-block">Both palettes use matte surfaces, consistent spacing, and static navigation. Decorative glass and particle effects are disabled.</p>
+                        <div id="theme-preview" style="padding: 22px; border: 1px solid #2c3036; border-radius: 8px; background: #191b1f;">
                             <small style="letter-spacing:.14em;text-transform:uppercase;opacity:.55">Live preview</small>
                             <h3 style="margin:8px 0 5px">Rockdactyl</h3>
-                            <span id="theme-preview-chip" style="display:inline-block;padding:5px 10px;border-radius:999px;background:#c94f5922;color:#f08a90;border:1px solid #c94f5955">Premium control</span>
+                            <span id="theme-preview-chip" style="display:inline-block;padding:5px 10px;border-radius:4px;border:1px solid currentColor">Workspace</span>
                         </div>
                     </div>
                     <div class="box-header with-border">
@@ -323,9 +324,8 @@
                 document.documentElement.style.setProperty('--admin-accent-border', `rgba(${rgb.join(', ')}, .34)`);
                 document.documentElement.style.setProperty('--admin-radius', `${radius.value}px`);
                 document.documentElement.style.setProperty('--admin-glass', `${glass.value}px`);
-                preview.style.borderRadius = `${radius.value}px`;
-                preview.style.backdropFilter = `blur(${glass.value}px)`;
-                preview.style.background = `linear-gradient(135deg, ${colors[0]}24, ${colors[1]})`;
+                preview.style.borderRadius = '8px';
+                preview.style.background = '#191b1f';
                 chip.style.color = colors[0];
                 chip.style.borderColor = `${colors[0]}66`;
                 chip.style.background = `${colors[0]}22`;

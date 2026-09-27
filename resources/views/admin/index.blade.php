@@ -1,63 +1,64 @@
 @extends('layouts.admin')
-
-@section('title')
-    Administration
-@endsection
+@section('title', 'Overview')
 
 @section('content-header')
-    <p class="admin-kicker">Admin</p>
+    <p class="admin-kicker">Workspace</p>
     <h1>Overview</h1>
-    <ol class="breadcrumb">
-        <li><a href="{{ route('admin.index') }}">Admin</a></li>
-        <li class="active">Index</li>
-    </ol>
+    <p class="admin-intro">Manage your infrastructure, access, and panel configuration.</p>
 @endsection
 
 @section('content')
-<div class="admin-status-strip">
-    <div>
-        <span class="admin-live-dot"></span>
-        <span>Online</span>
-    </div>
-    <span>Panel {{ config('app.version') }}</span>
+<div class="admin-metrics">
+    @foreach(['servers' => 'Servers', 'nodes' => 'Nodes', 'users' => 'Users', 'locations' => 'Locations'] as $key => $label)
+        <a class="admin-metric" href="{{ route('admin.'.$key) }}">
+            @include('partials.navigation-icon', ['name' => $key])
+            <div><strong>{{ number_format($counts[$key]) }}</strong><span>{{ $label }}</span></div>
+        </a>
+    @endforeach
 </div>
-<div class="row admin-overview-grid">
-    <div class="col-xs-12">
-        <div class="box
-            @if($version->isLatestPanel())
-                box-success
-            @else
-                box-danger
-            @endif
-        ">
-            <div class="box-header with-border">
-                <h3 class="box-title">Version</h3>
-            </div>
-            <div class="box-body">
-                @if ($version->isLatestPanel())
-                    <span class="release-line">Theme <code>{{ config('app.fork-version') }}</code></span>
-                    <span class="release-line">Panel <code>{{ config('app.version') }}</code></span>
-                    <span class="release-state"><i class="fa fa-check"></i> Current</span>
-                @else
-                    Your panel is <strong>not up-to-date!</strong> The latest version is <a href="https://github.com/Pterodactyl/Panel/releases/v{{ $version->getPanel() }}" target="_blank" rel="noopener noreferrer"><code>{{ $version->getPanel() }}</code></a> and you are currently running version <code>{{ config('app.version') }}</code>. Review the Rockdactyl update notes on <a href="https://github.com/devrock07/Rockdactyl" target="_blank" rel="noopener noreferrer">GitHub</a>.
-                @endif
-            </div>
+<div class="admin-workspace">
+    <section class="box">
+        <div class="box-header with-border"><h2 class="box-title">Manage workspace</h2></div>
+        <div class="box-body">
+            @foreach([
+                ['servers', 'Servers', 'Resources, allocations, and server configuration.'],
+                ['nodes', 'Nodes & infrastructure', 'Manage the machines running your servers.'],
+                ['users', 'People & access', 'Accounts, permissions, and administration.'],
+                ['settings', 'Panel settings', 'Branding, email, and workspace preferences.']
+            ] as [$key, $label, $description])
+                <a class="admin-action-row" href="{{ route('admin.'.$key) }}">
+                    @include('partials.navigation-icon', ['name' => $key])
+                    <div><strong>{{ $label }}</strong><p>{{ $description }}</p></div><span aria-hidden="true">&rarr;</span>
+                </a>
+            @endforeach
         </div>
-    </div>
+    </section>
+    <section class="box">
+        <div class="box-header with-border"><h2 class="box-title">Panel information</h2></div>
+        <div class="box-body">
+            <div class="admin-version-row"><span>Rockdactyl</span><code>{{ config('app.fork-version') }}</code></div>
+            <div class="admin-version-row"><span>Pterodactyl</span><code>{{ config('app.version') }}</code></div>
+            <div class="admin-version-row"><span>Appearance</span><span>{{ config('branding.theme_preset') === 'blue' ? 'Cobalt' : 'Crimson' }}</span></div>
+            <p class="admin-version-note">@if($version->isLatestPanel())Pterodactyl is up to date.@else A Pterodactyl update is available. Check compatibility before updating.@endif</p>
+            <a class="admin-action-row" href="https://pterodactyl.io" target="_blank" rel="noopener noreferrer">
+                <div><strong>Documentation</strong><p>Setup and administration guides.</p></div><span aria-hidden="true">&nearr;</span>
+            </a>
+        </div>
+    </section>
 </div>
-<div class="row admin-resource-grid">
-    <div class="col-xs-6 col-sm-3">
-        <a class="admin-resource-link" href="{{ $version->getDiscord() }}"><i class="fa fa-fw fa-support"></i><span>Discord</span><i class="fa fa-arrow-up"></i></a>
+<section class="box">
+    <div class="box-header with-border"><h2 class="box-title">Recently added servers</h2></div>
+    <div class="box-body">
+        @forelse($recentServers as $server)
+            <a class="admin-action-row" href="{{ route('admin.servers.view', $server->id) }}">
+                @include('partials.navigation-icon', ['name' => 'servers'])
+                <div><strong>{{ $server->name }}</strong><p>{{ $server->node->name }} &middot; {{ $server->uuidShort }}</p></div>
+                <span aria-hidden="true">&rarr;</span>
+            </a>
+        @empty
+            <p class="admin-intro">No servers yet. Add a node, then create your first server.</p>
+            <a class="btn btn-primary" href="{{ route('admin.servers') }}">Manage servers</a>
+        @endforelse
     </div>
-    <div class="col-xs-6 col-sm-3">
-        <a class="admin-resource-link" href="https://pterodactyl.io"><i class="fa fa-fw fa-link"></i><span>Docs</span><i class="fa fa-arrow-up"></i></a>
-    </div>
-    <div class="clearfix visible-xs-block">&nbsp;</div>
-    <div class="col-xs-6 col-sm-3">
-        <a class="admin-resource-link" href="https://github.com/pterodactyl/panel"><i class="fa fa-fw fa-github"></i><span>GitHub</span><i class="fa fa-arrow-up"></i></a>
-    </div>
-    <div class="col-xs-6 col-sm-3">
-        <a class="admin-resource-link" href="{{ $version->getDonations() }}"><i class="fa fa-fw fa-heart-o"></i><span>Sponsor</span><i class="fa fa-arrow-up"></i></a>
-    </div>
-</div>
+</section>
 @endsection

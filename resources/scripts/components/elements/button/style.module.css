@@ -4,16 +4,16 @@
     @apply focus:ring-[3px] focus:ring-offset-2 focus:ring-offset-gray-700 focus:ring-opacity-50;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 8px;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.075), 0 8px 24px rgba(0, 0, 0, 0.1);
-    transform: translateZ(0);
+    box-shadow: none;
+    transform: none;
 
     &:hover:not(:disabled) {
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09), 0 10px 28px rgba(0, 0, 0, 0.16);
+        box-shadow: none;
     }
 
     @media (hover: hover) and (pointer: fine) {
         &:hover:not(:disabled) {
-            transform: translateY(-1px);
+            transform: none;
         }
     }
 
@@ -51,8 +51,7 @@
 .primary {
     color: #fff;
     background-color: rgb(var(--rock-primary-700));
-    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.14), transparent 48%),
-        linear-gradient(105deg, rgba(var(--shell-accent-rgb), 0.2), rgba(var(--shell-accent-rgb), 0.08));
+    background-image: none;
     --tw-ring-color: rgba(var(--shell-accent-rgb), 0.72);
 
     &:hover:not(:disabled),
@@ -75,7 +74,7 @@
 
 .text {
     @apply bg-gray-500 text-gray-50;
-    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.055), transparent 60%);
+    background-image: none;
     @apply hover:bg-gray-400 active:bg-gray-400 focus:ring-gray-300 focus:ring-opacity-50;
 
     &.secondary {
@@ -89,7 +88,7 @@
 
 .danger {
     @apply bg-red-600 text-gray-50;
-    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.075), transparent 58%);
+    background-image: none;
     @apply hover:bg-red-500 active:bg-red-500 focus:ring-red-400 focus:ring-opacity-75;
 
     &.secondary {

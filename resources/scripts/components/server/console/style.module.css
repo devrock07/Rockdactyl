@@ -411,3 +411,57 @@
         font-size: 0.68rem;
     }
 }
+/* Flat telemetry: no extruded edges, tinted shadows or perspective. */
+.chart_container,
+.chart_container:hover,
+.chart_container:focus-within {
+    background: var(--shell-panel) !important;
+    border: 1px solid var(--shell-border) !important;
+    border-radius: 8px;
+    box-shadow: none !important;
+    transform: none !important;
+    perspective: none;
+}
+.chart_grid_plane,
+.chart_base,
+.chart_depth_edge,
+.chart_canvas::after {
+    display: none !important;
+}
+.chart_surface,
+.chart_canvas,
+.chart_header {
+    transform: none;
+    background: transparent;
+}
+.chart_header {
+    border-bottom: 1px solid var(--shell-border);
+    padding: 0 16px;
+    margin: 0;
+}
+.chart_readout > strong {
+    color: var(--shell-text);
+    text-shadow: none;
+    font-size: 13px;
+}
+.chart_live_dot {
+    background: var(--shell-accent);
+    box-shadow: none;
+}
+.chart_canvas canvas {
+    filter: none;
+}
+.stat_block {
+    background: var(--shell-panel) !important;
+    border: 1px solid var(--shell-border);
+    box-shadow: none;
+}
+.console_shell {
+    border: 1px solid var(--shell-border);
+    border-radius: 8px;
+    background: var(--shell-panel);
+    box-shadow: none;
+}
+.console_header {
+    padding: 24px 0;
+}

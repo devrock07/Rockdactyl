@@ -10,7 +10,7 @@ interface Props {
     isSecondary?: boolean;
 }
 
-const ButtonStyle = styled.button<Omit<Props, 'isLoading'>>`
+const ButtonStyle = styled.button.attrs({ className: 'rock-button' as string })<Omit<Props, 'isLoading'>>`
     ${tw`relative inline-block p-2 uppercase tracking-wide text-sm transition-all duration-150 border overflow-hidden`};
     border-radius: 8px;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);

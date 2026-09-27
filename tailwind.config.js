@@ -45,20 +45,13 @@ module.exports = {
                 blue: rockPrimary,
                 orange: colors.orange,
                 gray: gray,
-                neutral: gray,
                 cyan: colors.cyan,
-                neutral: {
-                    50: colors.neutral[50],
-                    100: colors.neutral[100],
-                    200: colors.neutral[200],
-                    300: colors.neutral[300],
-                    400: colors.neutral[400],
-                    500: '#737078',
-                    600: '#4a474d',
-                    700: '#29272a',
-                    800: '#171518',
-                    900: '#0b0a0c',
-                },
+                neutral: Object.fromEntries(
+                    [50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map((shade) => [
+                        shade,
+                        `rgb(var(--rock-neutral-${shade}) / <alpha-value>)`,
+                    ])
+                ),
             },
             fontSize: {
                 '2xs': '0.625rem',

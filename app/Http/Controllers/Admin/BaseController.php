@@ -20,6 +20,15 @@ class BaseController extends Controller
      */
     public function index(): View
     {
-        return view('admin.index', ['version' => $this->version]);
+        return view('admin.index', [
+            'version' => $this->version,
+            'counts' => [
+                'servers' => \Pterodactyl\Models\Server::count(),
+                'nodes' => \Pterodactyl\Models\Node::count(),
+                'users' => \Pterodactyl\Models\User::count(),
+                'locations' => \Pterodactyl\Models\Location::count(),
+            ],
+            'recentServers' => \Pterodactyl\Models\Server::with('node')->latest('id')->limit(5)->get(),
+        ]);
     }
 }

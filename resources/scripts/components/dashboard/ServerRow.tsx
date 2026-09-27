@@ -10,7 +10,7 @@ import styled from 'styled-components/macro';
 import { MagicBentoCard } from '@/components/elements/reactbits/MagicBento';
 import { pushRockNotification } from '@/components/notifications/rockNotifications';
 
-const Card = styled(MagicBentoCard)`
+const Card = styled(MagicBentoCard).attrs({ className: 'rock-server-card' as string })`
     min-height: 14rem;
     border: 1px solid rgba(255, 255, 255, 0.085);
     border-radius: 12px;

@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>{{ config('app.name', 'Pterodactyl') }} - @yield('title')</title>
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
         <meta name="_token" content="{{ csrf_token() }}">
 
         <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png?v=rock-red-2">
@@ -50,6 +50,7 @@
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
             <![endif]-->
         @show
+        <link rel="stylesheet" href="/themes/pterodactyl/css/rock-matte.css?v=20260927-1">
     </head>
     <body class="hold-transition skin-blue fixed sidebar-mini">
         <div class="wrapper">
@@ -73,14 +74,14 @@
                         <ul class="nav navbar-nav">
                             <li class="user-menu">
                                 <a href="{{ route('account') }}">
-                                    <img src="/favicons/favicon-32x32.png?v=rock-red-2" class="user-image" alt="Rockdactyl">
+                                    @include('partials.navigation-icon', ['name' => 'admin'])
                                     <span class="hidden-xs admin-identity">
                                         <strong>{{ Auth::user()->name_first }} {{ Auth::user()->name_last }}</strong>
                                         <small>Administrator</small>
                                     </span>
                                 </a>
                             </li>
-                            <li><a href="{{ route('index') }}" data-toggle="tooltip" data-placement="bottom" title="Exit Admin Control"><i class="fa fa-server"></i></a></li>
+                            <li><a href="{{ route('index') }}" data-toggle="tooltip" data-placement="bottom" title="Exit Admin Control">@include('partials.navigation-icon', ['name' => 'servers'])</a></li>
                             <li><a href="{{ route('auth.logout') }}" id="logoutButton" data-toggle="tooltip" data-placement="bottom" title="Logout"><i class="fa fa-sign-out"></i></a></li>
                         </ul>
                     </div>
@@ -92,54 +93,54 @@
                         <li class="header">BASIC ADMINISTRATION</li>
                         <li class="{{ Route::currentRouteName() !== 'admin.index' ?: 'active' }}">
                             <a href="{{ route('admin.index') }}">
-                                <i class="fa fa-home"></i> <span>Overview</span>
+                                @include('partials.navigation-icon', ['name' => 'overview']) <span>Overview</span>
                             </a>
                         </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.settings') ?: 'active' }}">
                             <a href="{{ route('admin.settings')}}">
-                                <i class="fa fa-wrench"></i> <span>Settings</span>
+                                @include('partials.navigation-icon', ['name' => 'settings']) <span>Settings</span>
                             </a>
                         </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.api') ?: 'active' }}">
                             <a href="{{ route('admin.api.index')}}">
-                                <i class="fa fa-gamepad"></i> <span>Application API</span>
+                                @include('partials.navigation-icon', ['name' => 'api']) <span>Application API</span>
                             </a>
                         </li>
                         <li class="header">MANAGEMENT</li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.databases') ?: 'active' }}">
                             <a href="{{ route('admin.databases') }}">
-                                <i class="fa fa-database"></i> <span>Databases</span>
+                                @include('partials.navigation-icon', ['name' => 'databases']) <span>Databases</span>
                             </a>
                         </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.locations') ?: 'active' }}">
                             <a href="{{ route('admin.locations') }}">
-                                <i class="fa fa-globe"></i> <span>Locations</span>
+                                @include('partials.navigation-icon', ['name' => 'locations']) <span>Locations</span>
                             </a>
                         </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.nodes') ?: 'active' }}">
                             <a href="{{ route('admin.nodes') }}">
-                                <i class="fa fa-sitemap"></i> <span>Nodes</span>
+                                @include('partials.navigation-icon', ['name' => 'nodes']) <span>Nodes</span>
                             </a>
                         </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.servers') ?: 'active' }}">
                             <a href="{{ route('admin.servers') }}">
-                                <i class="fa fa-server"></i> <span>Servers</span>
+                                @include('partials.navigation-icon', ['name' => 'servers']) <span>Servers</span>
                             </a>
                         </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.users') ?: 'active' }}">
                             <a href="{{ route('admin.users') }}">
-                                <i class="fa fa-users"></i> <span>Users</span>
+                                @include('partials.navigation-icon', ['name' => 'users']) <span>Users</span>
                             </a>
                         </li>
                         <li class="header">SERVICE MANAGEMENT</li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.mounts') ?: 'active' }}">
                             <a href="{{ route('admin.mounts') }}">
-                                <i class="fa fa-magic"></i> <span>Mounts</span>
+                                @include('partials.navigation-icon', ['name' => 'mounts']) <span>Mounts</span>
                             </a>
                         </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.nests') ?: 'active' }}">
                             <a href="{{ route('admin.nests') }}">
-                                <i class="fa fa-th-large"></i> <span>Nests</span>
+                                @include('partials.navigation-icon', ['name' => 'nests']) <span>Nests</span>
                             </a>
                         </li>
                     </ul>

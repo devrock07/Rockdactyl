@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import Avatar from '@/components/Avatar';
 import FluidGlass from '@/components/elements/reactbits/FluidGlass';
-import useReducedMotion from '@/plugins/useReducedMotion';
+
 import './reactbits-suite.css';
 
 type Props = {
@@ -15,27 +15,8 @@ type Props = {
 };
 
 export default ({ name, title, handle, status, detail, actionText = 'API keys', onActionClick }: Props) => {
-    const ref = useRef<HTMLDivElement>(null);
-    const reducedMotion = useReducedMotion();
-
-    const onPointerMove: React.PointerEventHandler<HTMLDivElement> = (event) => {
-        if (reducedMotion || !ref.current || window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
-        const bounds = ref.current.getBoundingClientRect();
-        const x = (event.clientX - bounds.left) / bounds.width - 0.5;
-        const y = (event.clientY - bounds.top) / bounds.height - 0.5;
-        ref.current.style.setProperty('--profile-rx', `${y * -2.8}deg`);
-        ref.current.style.setProperty('--profile-ry', `${x * 2.8}deg`);
-        ref.current.style.setProperty('--profile-x', `${(x + 0.5) * 100}%`);
-        ref.current.style.setProperty('--profile-y', `${(y + 0.5) * 100}%`);
-    };
-
-    const resetTilt = () => {
-        ref.current?.style.setProperty('--profile-rx', '0deg');
-        ref.current?.style.setProperty('--profile-ry', '0deg');
-    };
-
     return (
-        <div ref={ref} className={'rb-profile-shell'} onPointerMove={onPointerMove} onPointerLeave={resetTilt}>
+        <div className={'rb-profile-shell'}>
             <FluidGlass className={'rb-profile-card'} intensity={'strong'}>
                 <div className={'rb-profile-grid'} aria-hidden={'true'} />
                 <div className={'rb-profile-avatar'}>

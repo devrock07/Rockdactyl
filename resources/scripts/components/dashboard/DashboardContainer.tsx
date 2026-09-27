@@ -30,7 +30,7 @@ import {
     ServerPreferences,
 } from '@/components/dashboard/serverPreferencesSync';
 
-const DashboardHero = styled.section`
+const DashboardHero = styled.section.attrs({ className: 'rock-dashboard-heading' as string })`
     position: relative;
     margin-right: -2rem;
     margin-bottom: 2.5rem;

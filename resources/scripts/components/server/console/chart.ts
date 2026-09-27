@@ -50,7 +50,7 @@ const options: ChartOptions<'line'> = {
             type: 'linear',
             grid: {
                 display: true,
-                color: 'rgba(240, 138, 144, 0.11)',
+                color: 'rgba(160, 170, 185, 0.12)',
                 drawBorder: false,
             },
             ticks: {
@@ -127,7 +127,7 @@ function getEmptyData(
                         label,
                         data: Array(20).fill(-5),
                         borderColor: palette[400],
-                        backgroundColor: hexToRgba(palette[700], 0.34),
+                        backgroundColor: hexToRgba(palette[700], 0.12),
                     },
                     index,
                     palette
@@ -160,7 +160,7 @@ function useChart(label: string, opts?: UseChartOptions) {
                     {
                         ...dataset,
                         borderColor: palette[400],
-                        backgroundColor: hexToRgba(palette[700], 0.34),
+                        backgroundColor: hexToRgba(palette[700], 0.12),
                     },
                     index,
                     palette
@@ -210,7 +210,7 @@ function useChart(label: string, opts?: UseChartOptions) {
     const renderedOptions = merge(options, {
         scales: {
             x: { max: Math.max(19, data.labels?.length ? data.labels.length - 1 : 19) },
-            y: { grid: { color: hexToRgba(palette[400], 0.11) } },
+            y: { grid: { color: 'rgba(160, 170, 185, 0.12)' } },
         },
     });
     return { props: { data, options: renderedOptions }, push, clear, replace };

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html data-rock-theme="{{ config('branding.theme_preset') === 'blue' ? 'blue' : 'makima' }}">
     <head>
         <title>{{ config('app.name', 'Pterodactyl') }}</title>
 
         @section('meta')
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+            <meta content="width=device-width, initial-scale=1" name="viewport">
             <meta name="csrf-token" content="{{ csrf_token() }}">
             <meta name="robots" content="noindex">
             <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png?v=rock-red-2">
@@ -35,6 +35,7 @@
         @yield('assets')
 
         @include('layouts.scripts')
+        <link rel="stylesheet" href="/themes/pterodactyl/css/rock-matte.css?v=20260927-1">
     </head>
     <body class="{{ $css['body'] ?? 'bg-neutral-50' }}">
         @section('content')

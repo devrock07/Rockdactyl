@@ -28,21 +28,21 @@ const RightNavigation = styled.div`
         color: var(--shell-muted);
         border: 1px solid var(--shell-border);
         border-radius: 8px;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.012));
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055);
-        backdrop-filter: blur(16px) saturate(1.3);
+        background: var(--shell-panel);
+        box-shadow: none;
+        backdrop-filter: none;
 
         &:active,
         &:hover {
             color: var(--shell-text);
             border-color: var(--shell-border-strong);
-            background: linear-gradient(135deg, var(--shell-accent-soft), rgba(255, 255, 255, 0.035));
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 10px 24px rgba(0, 0, 0, 0.16);
+            background: var(--shell-panel);
+            box-shadow: none;
         }
 
         @media (hover: hover) and (pointer: fine) {
             &:hover {
-                transform: translateY(-1px);
+                transform: none;
             }
         }
     }
@@ -113,12 +113,12 @@ const RightNavigation = styled.div`
     }
 `;
 
-const Topbar = styled.div`
+const Topbar = styled.div.attrs({ className: 'rock-topbar' as string })`
     position: relative;
     border-bottom: 1px solid var(--shell-border);
-    background: linear-gradient(105deg, var(--shell-panel), var(--shell-panel-strong), var(--shell-panel));
-    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.025);
-    backdrop-filter: blur(22px) saturate(1.35);
+    background: var(--shell-panel);
+    box-shadow: none;
+    backdrop-filter: none;
 
     &::after {
         position: absolute;
@@ -128,7 +128,7 @@ const Topbar = styled.div`
         height: 1px;
         content: '';
         pointer-events: none;
-        background: linear-gradient(90deg, transparent, rgba(var(--shell-accent-rgb), 0.42), transparent);
+        background: var(--shell-panel);
     }
 
     .brand-mark {

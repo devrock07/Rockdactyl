@@ -20,7 +20,7 @@ import ConflictStateRenderer from '@/components/server/ConflictStateRenderer';
 import PermissionRoute from '@/components/elements/PermissionRoute';
 import routes from '@/routers/routes';
 import Sidebar from '@/components/Sidebar';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import NavigationIcon from '@/components/elements/NavigationIcon';
 import MobileBottomNav from '@/components/MobileBottomNav';
 import AnnouncementBanner from '@/components/elements/AnnouncementBanner';
 
@@ -110,7 +110,7 @@ export default () => {
                                         <Can key={route.path} action={route.permission} matchAny>
                                             <NavLink to={to(route.path, true)} exact={route.exact}>
                                                 <div className='icon'>
-                                                    <FontAwesomeIcon icon={route.iconProp as IconProp} />
+                                                    <NavigationIcon name={route.name} />
                                                 </div>
                                                 {route.name}
                                             </NavLink>
@@ -118,7 +118,7 @@ export default () => {
                                     ) : (
                                         <NavLink key={route.path} to={to(route.path, true)} exact={route.exact}>
                                             <div className='icon'>
-                                                <FontAwesomeIcon icon={route.iconProp as IconProp} />
+                                                <NavigationIcon name={route.name} />
                                             </div>
                                             {route.name}{' '}
                                         </NavLink>

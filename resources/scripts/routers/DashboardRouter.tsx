@@ -8,9 +8,8 @@ import { useLocation } from 'react-router';
 import Spinner from '@/components/elements/Spinner';
 import routes from '@/routers/routes';
 import Sidebar from '@/components/Sidebar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { faLayerGroup, faShieldAlt } from '@fortawesome/free-solid-svg-icons';
+import NavigationIcon from '@/components/elements/NavigationIcon';
+
 import { useStoreState } from 'easy-peasy';
 import { ApplicationStore } from '@/state';
 import MobileBottomNav from '@/components/MobileBottomNav';
@@ -30,17 +29,17 @@ export default () => {
                 <div className={'sidebar-section'}>Workspace</div>
                 <NavLink to={'/'} exact>
                     <div className='icon'>
-                        <FontAwesomeIcon icon={faLayerGroup} />
+                        <NavigationIcon name={'servers'} />
                     </div>
                     Servers
                 </NavLink>
                 <div className={'sidebar-section'}>Account</div>
                 {routes.account
                     .filter((route) => !!route.name)
-                    .map(({ path, name, exact = false, iconProp }) => (
+                    .map(({ path, name, exact = false }) => (
                         <NavLink key={path} to={`/account/${path}`.replace('//', '/')} exact={exact}>
                             <div className='icon'>
-                                <FontAwesomeIcon icon={iconProp as IconProp} />
+                                <NavigationIcon name={name} />
                             </div>
                             {name}
                         </NavLink>
@@ -50,7 +49,7 @@ export default () => {
                         <div className={'sidebar-section'}>Administration</div>
                         <a href={'/admin'}>
                             <div className='icon'>
-                                <FontAwesomeIcon icon={faShieldAlt} />
+                                <NavigationIcon name={'admin'} />
                             </div>
                             Admin panel
                         </a>

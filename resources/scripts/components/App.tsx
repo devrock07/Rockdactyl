@@ -14,8 +14,7 @@ import AuthenticatedRoute from '@/components/elements/AuthenticatedRoute';
 import { ServerContext } from '@/state/server';
 import '@/assets/tailwind.css';
 import Spinner from '@/components/elements/Spinner';
-import { AmbientCursor } from '@/components/elements/ReactBitsEffects';
-import SoftAurora from '@/components/elements/reactbits/SoftAurora';
+
 import ThemeRuntime from '@/components/ThemeRuntime';
 import PublicStatusPage from '@/components/status/PublicStatusPage';
 import { ConfigInterface, SWRConfig } from 'swr';
@@ -116,8 +115,7 @@ const App = () => {
             <StoreProvider store={store}>
                 <SWRConfig value={{ onErrorRetry: onSWRRetry, errorRetryCount: 3 }}>
                     <ThemeRuntime />
-                    <SoftAurora />
-                    <AmbientCursor />
+
                     <ProgressBar />
                     <div css={tw`mx-auto w-auto`} className='nook-container'>
                         <Router history={history}>
