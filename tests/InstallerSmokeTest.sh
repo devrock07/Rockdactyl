@@ -221,6 +221,10 @@ if [ "${1:-}" = '-r' ]; then
         exit 1
     fi
     if [[ "$script" == *file_get_contents* ]] && [ -f "${3:-}" ]; then
+        if grep -Eq "'version' => 'v?canary'" "$3"; then
+            printf 'canary'
+            exit 0
+        fi
         grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' "$3" | head -n 1
         exit 0
     fi
@@ -354,6 +358,7 @@ export NO_COLOR=1
 export ROCK_LOCK_ROOT="$workspace/manager locks"
 
 clear_mocks() {
+    unset ROCK_PANEL_VERSION
     export MOCK_DOWNLOAD_FAIL=0
     export MOCK_CORRUPT_ARCHIVE=0
     export MOCK_ARCHIVE_MODE=valid
@@ -493,6 +498,103 @@ printf 'v1.15.1\n' >"$PANEL_DIR/.rock/upstream-version"
 run_installer "$workspace/base-marker-success.log" update
 grep -q 'DEPLOYMENT COMPLETE' "$workspace/base-marker-success.log"
 
+# Source archives and Git tags report canary rather than a stamped release.
+clear_mocks
+reset_panel "$workspace/canary-marker-panel" "$workspace/canary-marker-backups"
+printf "<?php return ['version' => 'canary'];\n" >"$PANEL_DIR/config/app.php"
+mkdir -p "$PANEL_DIR/.rock"
+printf 'v1.15.1\n' >"$PANEL_DIR/.rock/upstream-version"
+run_installer "$workspace/canary-marker.log" install
+grep -q 'DEPLOYMENT COMPLETE' "$workspace/canary-marker.log"
+
+clear_mocks
+reset_panel "$workspace/canary-marker-newer-panel" "$workspace/canary-marker-newer-backups"
+printf "<?php return ['version' => 'canary'];\n" >"$PANEL_DIR/config/app.php"
+mkdir -p "$PANEL_DIR/.rock"
+printf 'v1.16.0\n' >"$PANEL_DIR/.rock/upstream-version"
+expect_failure "$workspace/canary-marker-downgrade.log" install
+grep -q 'base downgrade or major-version jump refused' "$workspace/canary-marker-downgrade.log"
+assert_panel_online_and_original
+
+clear_mocks
+reset_panel "$workspace/canary-unknown-panel" "$workspace/canary-unknown-backups"
+printf "<?php return ['version' => 'canary'];\n" >"$PANEL_DIR/config/app.php"
+expect_failure "$workspace/canary-unknown.log" install
+grep -q 'set ROCK_PANEL_VERSION to the verified base version' "$workspace/canary-unknown.log"
+assert_panel_online_and_original
+[ -z "$(find "$ROCK_BACKUP_ROOT" -maxdepth 1 -type f -print -quit)" ]
+
+export ROCK_PANEL_VERSION=1.15.1
+printf "<?php return ['version' => 'vcanary'];\n" >"$PANEL_DIR/config/app.php"
+run_installer "$workspace/canary-declared.log" install
+grep -q 'Using operator-declared Pterodactyl base: v1.15.1' "$workspace/canary-declared.log"
+grep -q 'DEPLOYMENT COMPLETE' "$workspace/canary-declared.log"
+
+clear_mocks
+reset_panel "$workspace/canary-newer-panel" "$workspace/canary-newer-backups"
+printf "<?php return ['version' => 'canary'];\n" >"$PANEL_DIR/config/app.php"
+export ROCK_PANEL_VERSION=v1.16.0
+expect_failure "$workspace/canary-downgrade.log" install
+grep -q 'base downgrade or major-version jump refused' "$workspace/canary-downgrade.log"
+assert_panel_online_and_original
+export ROCK_PANEL_VERSION=v2.0.0
+expect_failure "$workspace/canary-major.log" install
+grep -q 'base downgrade or major-version jump refused' "$workspace/canary-major.log"
+export ROCK_PANEL_VERSION=canary
+expect_failure "$workspace/canary-invalid.log" install
+grep -q 'Invalid ROCK_PANEL_VERSION' "$workspace/canary-invalid.log"
+
+clear_mocks
+reset_panel "$workspace/declared-conflict-panel" "$workspace/declared-conflict-backups"
+export ROCK_PANEL_VERSION=v1.14.1
+expect_failure "$workspace/declared-conflict.log" install
+grep -q 'Declared Pterodactyl version conflicts' "$workspace/declared-conflict.log"
+assert_panel_online_and_original
+
+clear_mocks
+reset_panel "$workspace/canary-git-panel" "$workspace/canary-git-backups"
+printf "<?php return ['version' => 'canary'];\n" >"$PANEL_DIR/config/app.php"
+git -C "$PANEL_DIR" init -q
+git -C "$PANEL_DIR" add config/app.php
+git -C "$PANEL_DIR" -c user.name=Fixture -c user.email=fixture@example.invalid commit -qm fixture
+git -C "$PANEL_DIR" tag v1.15.1
+export PANEL_DIR="$PANEL_DIR/"
+run_installer "$workspace/canary-git.log" install
+grep -q 'source base resolved from exact Git tag: v1.15.1' "$workspace/canary-git.log"
+grep -q 'DEPLOYMENT COMPLETE' "$workspace/canary-git.log"
+
+clear_mocks
+reset_panel "$workspace/canary-dirty-panel" "$workspace/canary-dirty-backups"
+printf "<?php return ['version' => 'canary'];\n" >"$PANEL_DIR/config/app.php"
+git -C "$PANEL_DIR" init -q
+git -C "$PANEL_DIR" add config/app.php
+git -C "$PANEL_DIR" -c user.name=Fixture -c user.email=fixture@example.invalid commit -qm fixture
+git -C "$PANEL_DIR" tag v1.15.1
+printf '// modified\n' >>"$PANEL_DIR/config/app.php"
+expect_failure "$workspace/canary-dirty.log" install
+grep -q 'numeric base cannot be determined' "$workspace/canary-dirty.log"
+assert_panel_online_and_original
+
+clear_mocks
+reset_panel "$workspace/canary-ambiguous-panel" "$workspace/canary-ambiguous-backups"
+printf "<?php return ['version' => 'canary'];\n" >"$PANEL_DIR/config/app.php"
+git -C "$PANEL_DIR" init -q
+git -C "$PANEL_DIR" add config/app.php
+git -C "$PANEL_DIR" -c user.name=Fixture -c user.email=fixture@example.invalid commit -qm fixture
+git -C "$PANEL_DIR" tag v1.15.1
+git -C "$PANEL_DIR" tag v1.14.1
+expect_failure "$workspace/canary-ambiguous.log" install
+grep -q 'numeric base cannot be determined' "$workspace/canary-ambiguous.log"
+assert_panel_online_and_original
+
+git -C "$PANEL_DIR" tag -d v1.14.1 >/dev/null
+printf 'changed\n' >"$PANEL_DIR/change.txt"
+git -C "$PANEL_DIR" add change.txt
+git -C "$PANEL_DIR" -c user.name=Fixture -c user.email=fixture@example.invalid commit -qm development
+expect_failure "$workspace/canary-ancestor.log" install
+grep -q 'numeric base cannot be determined' "$workspace/canary-ancestor.log"
+assert_panel_online_and_original
+
 clear_mocks
 reset_panel "$workspace/unknown-base-panel" "$workspace/unknown-base-backups"
 rm -f "$PANEL_DIR/config/app.php"
@@ -500,6 +602,10 @@ expect_failure "$workspace/base-unknown.log" update
 grep -q 'Unable to determine the installed Pterodactyl version' "$workspace/base-unknown.log"
 assert_panel_online_and_original
 [ -z "$(find "$ROCK_BACKUP_ROOT" -maxdepth 1 -type f -print -quit)" ]
+export ROCK_PANEL_VERSION=1.15.1
+expect_failure "$workspace/base-missing-override.log" install
+grep -q 'only a fallback for a canary source installation' "$workspace/base-missing-override.log"
+assert_panel_online_and_original
 
 # The fallback lock blocks a concurrent manager and safely reclaims a stale owner.
 clear_mocks
@@ -761,6 +867,7 @@ clear_mocks
 reset_panel "$workspace/restore-panel" "$workspace/restore-backups"
 mkdir -p "$ROCK_BACKUP_ROOT"
 "$real_tar" -C "$PANEL_DIR" -czf "$ROCK_BACKUP_ROOT/original-panel.tar.gz" .
+(cd "$ROCK_BACKUP_ROOT" && sha256sum original-panel.tar.gz >original-panel.tar.gz.sha256)
 rm -f "$PANEL_DIR/original-marker"
 printf 'theme\n' >"$PANEL_DIR/theme-only-file"
 printf 'APP_KEY=live-value\n' >"$PANEL_DIR/.env"

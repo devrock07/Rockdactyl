@@ -680,6 +680,12 @@ validate_release_archive() {
 resolve_installed_base() {
     local marker_base=''
     local config_base=''
+    local git_base=''
+    local git_root=''
+    local git_tags=''
+    local panel_resolved=''
+    local canary_base=false
+    local declared_base="${ROCK_PANEL_VERSION:-}"
     local base=''
 
     if [ -f "$PANEL_DIR/.rock/upstream-version" ]; then
@@ -699,12 +705,71 @@ resolve_installed_base() {
         esac
     fi
 
+    # Upstream source tags keep the canary label; release archives stamp a
+    # numeric version. A canary label alone does not identify a compatible base.
+    if [ "$config_base" = 'vcanary' ]; then
+        canary_base=true
+        config_base=''
+        if [ -z "$marker_base" ] && command -v git >/dev/null 2>&1 && [ -d "$PANEL_DIR/.git" ]; then
+            git_root="$(git -C "$PANEL_DIR" rev-parse --show-toplevel 2>/dev/null)" || git_root=''
+            git_tags="$(git -C "$PANEL_DIR" tag --points-at HEAD 2>/dev/null | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | sort -u)" || git_tags=''
+            # Multiple release tags are ambiguous; do not choose one implicitly.
+            panel_resolved="$(cd "$PANEL_DIR" && pwd -P)" || return 1
+            if [ -n "$git_root" ]; then
+                git_root="$(cd "$git_root" && pwd -P)" || git_root=''
+            fi
+            if [ "$git_root" = "$panel_resolved" ] && [ -n "$git_tags" ] && [[ "$git_tags" != *$'\n'* ]]; then
+                git_base="$git_tags"
+            fi
+            case "$git_base" in
+                v*) ;;
+                '') ;;
+                *) git_base="v$git_base" ;;
+            esac
+            if ! [[ "$git_base" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] ||
+                ! git -C "$PANEL_DIR" diff --quiet HEAD -- config/app.php; then
+                git_base=''
+            fi
+        fi
+        config_base="$git_base"
+        if [ -n "$git_base" ]; then
+            printf 'Pterodactyl source base resolved from exact Git tag: %s.\n' "$git_base" >&2
+        fi
+        if [ -z "$marker_base$config_base$declared_base" ]; then
+            printf 'Pterodactyl reports canary; its numeric base cannot be determined.\n' >&2
+            printf 'Use an official release archive, or set ROCK_PANEL_VERSION to the verified base version of this source installation.\n' >&2
+            return 1
+        fi
+    fi
+
     if [ -n "$marker_base" ] && [ -n "$config_base" ] && [ "$marker_base" != "$config_base" ]; then
         printf 'Installed Pterodactyl metadata conflicts: marker is %s, config is %s.\n' "$marker_base" "$config_base" >&2
         return 1
     fi
 
     base="${marker_base:-$config_base}"
+    if [ -n "$declared_base" ]; then
+        case "$declared_base" in
+            v*) ;;
+            *) declared_base="v$declared_base" ;;
+        esac
+        if ! [[ "$declared_base" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            printf 'Invalid ROCK_PANEL_VERSION: %s\n' "$declared_base" >&2
+            return 1
+        fi
+        if [ -n "$base" ] && [ "$base" != "$declared_base" ]; then
+            printf 'Declared Pterodactyl version conflicts with installed metadata: declared %s, detected %s.\n' "$declared_base" "$base" >&2
+            return 1
+        fi
+        if [ -z "$base" ]; then
+            if [ "$canary_base" != true ]; then
+                printf 'Unable to determine the installed Pterodactyl version; ROCK_PANEL_VERSION is only a fallback for a canary source installation.\n' >&2
+                return 1
+            fi
+            printf 'Using operator-declared Pterodactyl base: %s.\n' "$declared_base" >&2
+            base="$declared_base"
+        fi
+    fi
     if [ -z "$base" ]; then
         printf 'Unable to determine the installed Pterodactyl version.\n' >&2
         return 1
@@ -1129,6 +1194,7 @@ Environment:
   PANEL_DIR=/var/www/pterodactyl
   ROCK_BACKUP_ROOT=/var/backups/rock-theme
   ROCK_LOCK_ROOT=/run/lock/rock-theme
+  ROCK_PANEL_VERSION=<verified numeric base for a canary source installation>
   ROCK_NO_ANIMATION=1
   ROCK_VERBOSE=1
   NO_COLOR=1

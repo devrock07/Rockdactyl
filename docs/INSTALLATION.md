@@ -83,6 +83,25 @@ The panel remains in maintenance mode instead of exposing a potentially
 half-migrated deployment. Use the independent database backup with the matching
 file snapshot when an exact point-in-time rollback is required.
 
+### Source installations reporting `canary`
+
+Pterodactyl Git checkouts and source archives can report `canary` even at a
+stable release tag. The manager resolves their base from a numeric
+`.rock/upstream-version` marker, or from a single exact numeric Git tag at HEAD
+when `config/app.php` is unchanged. Development commits and ambiguous tags are
+not automatically treated as a stable release.
+
+For a source archive without either marker, pass the version you actually
+installed. For example, **only if the panel came from Pterodactyl v1.15.1**:
+
+```bash
+sudo env ROCK_PANEL_VERSION=1.15.1 bash /tmp/rockdactyl-install.sh install
+```
+
+This declaration does not bypass downgrade, major-version, or metadata-conflict
+checks. If you cannot identify the source version, use the official stable
+`panel.tar.gz` release instead of guessing a version or editing `config/app.php`.
+
 ### Custom paths and output
 
 The defaults are:
